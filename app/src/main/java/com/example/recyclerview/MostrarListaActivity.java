@@ -1,31 +1,23 @@
 package com.example.recyclerview;
 
-import static com.example.recyclerview.Repository.TrabajadorRepository.lstTrabajador;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.recyclerview.databinding.ActivityMostrarListaBinding; // Importa el paquete generado por ViewBinding
+
+import static com.example.recyclerview.Repository.TrabajadorRepository.lstTrabajador;
 
 public class MostrarListaActivity extends AppCompatActivity {
 
-    private ListView lstVistaTrabajador;
+    private ActivityMostrarListaBinding binding; // Declara una variable de binding
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mostrar_lista);
+        binding = ActivityMostrarListaBinding.inflate(getLayoutInflater()); // Infla el diseño utilizando ViewBinding
+        setContentView(binding.getRoot()); // Establece la vista raíz del diseño
 
-        lstVistaTrabajador = findViewById(R.id.lsvTrabajadores);
-        if(lstTrabajador.isEmpty()){
-            new AlertDialog.Builder(this)
-                    .setTitle("¡Aviso!")
-                    .setMessage("Lista Vacía")
-                    .setPositiveButton("Aceptar", (dialog, which) -> finish()).show();
-        }else{
-            lstVistaTrabajador.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,lstTrabajador));
-        }
+        binding.lsvTrabajadores.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lstTrabajador));
     }
 }
